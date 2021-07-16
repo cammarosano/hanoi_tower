@@ -1,6 +1,6 @@
 # hanoi_tower
 
-A [Tower of Hanoi](https://en.wikipedia.org/wiki/Tower_of_Hanoi) solver - in your terminal!
+A [Tower of Hanoi](https://en.wikipedia.org/wiki/Tower_of_Hanoi) solver written in C - it displays on your terminal!
 
 ![hanoi tower solver in action](images/hanoi_tower_solver.gif)
 
