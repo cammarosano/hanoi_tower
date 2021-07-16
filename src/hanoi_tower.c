@@ -70,12 +70,11 @@ void	print_base(int n)
 	write(1, "\n", 1);
 }
 
-void	print_game(t_towers game, int n)
+void	print_game(t_towers game, int n, long time)
 {
 	int	i;
 
-	write (1, "\n\n\n", 3);
-	
+	system("clear");	
 	i = 0;
 	while (i < n)
 	{
@@ -88,9 +87,7 @@ void	print_game(t_towers game, int n)
 		i++;
 	}
 	print_base(n);
-	write (1, "\n\n\n", 3);
-	//sleep(1);
-	usleep(90000);
+	usleep(time * 1000);
 }
 
 void	move_ring(t_list **origin, t_list **dest)
@@ -112,39 +109,55 @@ void	move_ring(t_list **origin, t_list **dest)
 		origin_2ndtolast->next = NULL;
 }
 
-void	move_piramid(int size, t_list **origin, t_list **interm, t_list **dest, t_towers *game, int n)
+void	move_piramid(int size, t_list **origin, t_list **interm, t_list **dest, t_towers *game, int n, long time)
 {
 	if (size == 1)
 	{
 		move_ring(origin, dest);
-		print_game(*game, n);
+		print_game(*game, n, time);
 	}
 	else
 	{
-		move_piramid(size - 1, origin, dest, interm, game, n);
+		move_piramid(size - 1, origin, dest, interm, game, n, time);
 		move_ring(origin, dest);
-		print_game(*game, n);
-		move_piramid(size - 1, interm, origin, dest, game, n);
+		print_game(*game, n, time);
+		move_piramid(size - 1, interm, origin, dest, game, n, time);
 	}
+}
+
+int	parse_args(int *n, long *time, int argc, char **argv)
+{
+	if (argc < 2)
+	{
+		ft_putendl_fd("Usage: hanoi_tower n_rings [time_is_ms], where n_rings >= 1", 2);
+		return (-1);
+	}
+	*n = ft_atoi(argv[1]);
+	if (*n < 1)
+		return (-1);
+	*time = 1000000;
+	if (argc >= 3)
+		*time = ft_atoi(argv[2]);
+	if (*time < 0)
+	{
+		ft_putendl_fd("Bad value for time", 2);
+		return (-1);
+	}
+	return (0);
 }
 
 int		main(int argc, char **argv)
 {
 	int			n;
+	long		time;
 	t_towers	game;
 
-	if (argc < 2)
-	{
-		ft_putendl_fd("Usage: hanoi_tower n , where n >= 1", 2);
-		return (1);
-	}
-	n = ft_atoi(argv[1]);
-	if (n < 1)
+	if (parse_args(&n, &time, argc, argv) == -1)
 		return (1);
 	if (create_towers(n, &game) == -1)
 		return (1);
-	print_game(game, n);
-	move_piramid(n, &game.rod_a, &game.rod_b, &game.rod_c, &game, n);
+	print_game(game, n, time);
+	move_piramid(n, &game.rod_a, &game.rod_b, &game.rod_c, &game, n, time);
 	free_towers(n, &game);
 	return (0);
 }
