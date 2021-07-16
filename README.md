@@ -15,4 +15,4 @@ make
 ./hanoi_tower  n_rings  [time_ms]
 ```
 Example: `./hanoi_tower 8 500` will solve for 8 rings, with a time interval of 500 ms between each move.  
-*time_ms* defaults to 1s if not informed.
+*time_ms* defaults to 1 s if not informed.
