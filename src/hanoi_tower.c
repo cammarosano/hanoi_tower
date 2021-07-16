@@ -134,13 +134,15 @@ int	parse_args(int *n, long *time, int argc, char **argv)
 	}
 	*n = ft_atoi(argv[1]);
 	if (*n < 1)
+	{
+		ft_putendl_fd("Bad value for n_rings", 2);
 		return (-1);
+	}
 	*time = 1000000;
 	if (argc >= 3)
 		*time = ft_atoi(argv[2]);
 	if (*time < 0)
 	{
-		ft_putendl_fd("Bad value for time", 2);
 		return (-1);
 	}
 	return (0);
